@@ -1,0 +1,25 @@
+type ResultDaoInfoForResultTokenInfo = struct {
+  name: str,
+  description: str,
+  token: ResultTokenInfo,
+};
+
+type ResultTokenInfo = struct {
+  name: str,
+  symbol: str,
+  decimals: u8,
+  total_supply: u256,
+};
+
+constructor {
+  New : ();
+};
+
+service NexusDao {
+  AddAdmin : (dao_name: str, new_admin: actor_id) -> null;
+  CreateDao : (name: str, description: str, token_actor: actor_id) -> null;
+  query GetDaoInfo : (name: str) -> opt ResultDaoInfoForResultTokenInfo;
+  query GetDaosByActor : (actor: actor_id) -> opt vec str;
+  query IsAdmin : (dao_name: str, user: actor_id) -> bool;
+};
+

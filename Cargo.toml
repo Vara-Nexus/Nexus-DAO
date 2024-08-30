@@ -1,0 +1,30 @@
+
+[package]
+name = "nexus-dao"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gstd = "1.5.0"
+sails-rs = "0.4.0"
+#vft-service = { git = "https://github.com/gear-foundation/standards" }
+vft-service = { path = "../../vara-learning/learn-standards/vft-service" }
+#extended-vft-app = { path = "../../vara-learning/learn-standards/extended-vft/app" }
+#extended_vft_wasm = { path = "../../vara-learning/learn-standards/extended-vft/wasm" }
+nexus-vft-client = { path = "../nexus-vft/client" }
+nexus-vft-app = { path = "../nexus-vft/app" }
+
+[build-dependencies]
+sails-rs = { version = "0.4.0", features = ["wasm-builder"] }
+nexus-vft-client = { path = "../nexus-vft/client" }
+nexus-vft-app = { path = "../nexus-vft/app" }
+
+
+[dev-dependencies]
+nexus-dao = { path = ".", features = ["wasm-binary"] }
+nexus-dao-client = { path = "client" }
+sails-rs = { version = "0.4.0", features = ["gtest"] }
+tokio = { version = "1.39", features = ["rt", "macros"] }
+
+[features]
+wasm-binary = []
