@@ -1,6 +1,19 @@
+type Error = enum {
+  NotInVotingPeriod,
+  VoteNotEnded,
+};
+
+type ResultDaoInfoFornull = struct {
+  name: str,
+  description: str,
+  token_actor: actor_id,
+  token: null,
+};
+
 type ResultDaoInfoForResultTokenInfo = struct {
   name: str,
   description: str,
+  token_actor: actor_id,
   token: ResultTokenInfo,
 };
 
@@ -11,15 +24,44 @@ type ResultTokenInfo = struct {
   total_supply: u256,
 };
 
+type Proposal = struct {
+  description: str,
+  creator: actor_id,
+  voting_start: u32,
+  voting_end: u32,
+  status: ProposalStatus,
+  votes_for: u32,
+  votes_against: u32,
+};
+
+type ProposalStatus = enum {
+  Active,
+  Passed,
+  Rejected,
+};
+
 constructor {
   New : ();
 };
 
 service NexusDao {
   AddAdmin : (dao_name: str, new_admin: actor_id) -> null;
-  CreateDao : (name: str, description: str, token_actor: actor_id) -> null;
+  CreateDao : (name: str, description: str, token_actor: actor_id) -> bool;
+  CreateProposal : (dao_name: str, description: str, voting_start: u32, voting_end: u32) -> u32;
+  FinalizeProposal : (dao_name: str, proposal_id: u32) -> result (null, Error);
+  VoteOnProposal : (dao_name: str, proposal_id: u32, vote_for: bool) -> result (null, Error);
+  query GetAllDaoInfo : () -> vec ResultDaoInfoFornull;
   query GetDaoInfo : (name: str) -> opt ResultDaoInfoForResultTokenInfo;
   query GetDaosByActor : (actor: actor_id) -> opt vec str;
+  query GetProposals : (dao_name: str) -> vec Proposal;
   query IsAdmin : (dao_name: str, user: actor_id) -> bool;
+
+  events {
+    DaoCreated: struct { name: str, creator: actor_id, token_actor: actor_id, creation_block: u64 };
+    AdminAdded: struct { admin: actor_id };
+    ProposalCreated: struct { dao_name: str, proposal_id: u32, creator: actor_id };
+    ProposalVoted: struct { dao_name: str, proposal_id: u32, voter: actor_id, vote_for: bool };
+    ProposalFinalized: struct { dao_name: str, proposal_id: u32, status: ProposalStatus };
+  }
 };
 

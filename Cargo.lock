@@ -3934,7 +3934,9 @@ dependencies = [
  "nexus-dao-client",
  "nexus-vft-app",
  "nexus-vft-client",
+ "parity-scale-codec",
  "sails-rs 0.4.0",
+ "scale-info",
  "tokio",
  "vft-service 0.1.0",
 ]
@@ -3954,7 +3956,9 @@ name = "nexus-vft-app"
 version = "0.1.0"
 dependencies = [
  "gstd",
+ "parity-scale-codec",
  "sails-rs 0.4.0",
+ "scale-info",
  "vft-service 0.1.0 (git+https://github.com/gear-foundation/standards)",
 ]
 
