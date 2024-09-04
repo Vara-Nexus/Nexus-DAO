@@ -25,6 +25,7 @@ type ResultTokenInfo = struct {
 };
 
 type Proposal = struct {
+  title: str,
   description: str,
   creator: actor_id,
   voting_start: u32,
@@ -47,7 +48,7 @@ constructor {
 service NexusDao {
   AddAdmin : (dao_name: str, new_admin: actor_id) -> null;
   CreateDao : (name: str, description: str, token_actor: actor_id) -> bool;
-  CreateProposal : (dao_name: str, description: str, voting_start: u32, voting_end: u32) -> u32;
+  CreateProposal : (dao_name: str, title: str, description: str, voting_start: u32, voting_end: u32) -> u32;
   FinalizeProposal : (dao_name: str, proposal_id: u32) -> result (null, Error);
   VoteOnProposal : (dao_name: str, proposal_id: u32, vote_for: bool) -> result (null, Error);
   query GetAllDaoInfo : () -> vec ResultDaoInfoFornull;

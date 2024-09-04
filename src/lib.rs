@@ -130,7 +130,7 @@ impl NexusDaoService {
         true
     }
 
-    pub fn create_proposal(&mut self, dao_name: String, description: String, voting_start: u32, voting_end: u32) -> u32 {
+    pub fn create_proposal(&mut self, dao_name: String, title: String, description: String, voting_start: u32, voting_end: u32) -> u32 {
         let creator = msg::source();
         let proposals = ProposalMap::get_mut().dao_to_proposals.entry(dao_name.clone()).or_insert_with(Vec::new);
         let proposal_id = proposals.len() as u32 + 1;
@@ -140,6 +140,7 @@ impl NexusDaoService {
         }
 
         proposals.push(Proposal {
+            title,
             description,
             creator,
             voting_start,
@@ -192,7 +193,6 @@ impl NexusDaoService {
             return Err(Error::VoteNotEnded)
         }
 
-
         if proposal.votes_for > proposal.votes_against {
             proposal.status = ProposalStatus::Passed;
         } else {
@@ -211,7 +211,6 @@ impl NexusDaoService {
     pub fn get_proposals(&self, dao_name: String) -> Vec<Proposal> {
         ProposalMap::get().dao_to_proposals.get(&dao_name).cloned().unwrap_or_default()
     }
-
 
     pub async fn get_all_dao_info(&self) -> Vec<ResultDaoInfo<()>> {
         let state = DaoCollection::get();

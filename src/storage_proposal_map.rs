@@ -8,6 +8,7 @@ pub(crate) static mut PROPOSAL_MAP: Option<ProposalMap> = None;
 
 #[derive(Clone, Debug, Encode, Decode, TypeInfo)]
 pub struct Proposal {
+    pub title: String,
     pub description: String,
     pub creator: ActorId,
     pub voting_start: u32,
