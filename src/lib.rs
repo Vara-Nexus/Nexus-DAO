@@ -212,6 +212,12 @@ impl NexusDaoService {
         ProposalMap::get().dao_to_proposals.get(&dao_name).cloned().unwrap_or_default()
     }
 
+    pub fn get_proposal(&self, dao_name: String, proposal_id: u32) -> Option<Proposal> {
+        ProposalMap::get().dao_to_proposals.get(&dao_name).and_then(|proposals| {
+            proposals.get(proposal_id as usize - 1).cloned()
+        })
+    }
+
     pub async fn get_all_dao_info(&self) -> Vec<ResultDaoInfo<()>> {
         let state = DaoCollection::get();
         let mut result = Vec::new();

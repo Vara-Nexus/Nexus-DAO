@@ -206,6 +206,16 @@ async fn test_proposal_creation() {
 
     assert_eq!(proposals.len(), 1);
     assert_eq!(proposals[0].description, "Detail 1");
+
+    // Call get_proposal to verify the proposal by id
+    let proposal = service_client
+        .get_proposal("TestDAO".to_string(), 1)
+        .recv(program_id)
+        .await
+        .unwrap();
+
+    assert_eq!(proposal.unwrap().description, "Detail 1");
+
 }
 
 #[tokio::test]

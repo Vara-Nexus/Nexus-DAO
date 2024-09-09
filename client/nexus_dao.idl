@@ -54,6 +54,7 @@ service NexusDao {
   query GetAllDaoInfo : () -> vec ResultDaoInfoFornull;
   query GetDaoInfo : (name: str) -> opt ResultDaoInfoForResultTokenInfo;
   query GetDaosByActor : (actor: actor_id) -> opt vec str;
+  query GetProposal : (dao_name: str, proposal_id: u32) -> opt Proposal;
   query GetProposals : (dao_name: str) -> vec Proposal;
   query IsAdmin : (dao_name: str, user: actor_id) -> bool;
 
